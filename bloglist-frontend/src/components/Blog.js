@@ -1,6 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-const Blog = ({ blog, updateLike, removeBlog }) => {
+import { useDispatch, useSelector } from 'react-redux'
+import { initBlogs, incrementLike, removeBlog } from "../reducers/blogsReducer"
+import { setNotification } from "../reducers/notificationReducer"
+
+const Blog = () => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -8,36 +12,44 @@ const Blog = ({ blog, updateLike, removeBlog }) => {
     borderWidth: 1,
     marginBottom: 5
   }
-
+  const blogs = useSelector(state => state.blog)
+  const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false)
-  if (blog) {
+
+  useEffect(() => {
+    dispatch(initBlogs())
+  }, [])
+
+  if (blogs) {
     return (
-      <div style={blogStyle}>
-        <div data-cy={`blog-${blog.title}`}>
-          {blog.title}
-        </div>
-        <div data-cy={`blog-${blog.author}`}>
-          {blog.author}
-        </div>
-        <button data-cy="view-button" onClick={() => setIsOpen((prevState) => !prevState)} >
-          {isOpen ? "hide" : "view"}
-        </button>
-        {isOpen &&
-          <>
-            <div data-cy={`blog-${blog.title}-like`}>
-              likes: {blog.likes}
-              <button data-cy="like-button" onClick={() => { updateLike({ ...blog, likes: blog.likes + 1 }) }}>like</button>
-            </div>
-            {blog.url && <div>
-              url: {blog.url}
-            </div>}
-            <button data-cy="delete-button" onClick={() => removeBlog(blog)}>delete</button>
-          </>
-        }
-      </div>
+      blogs.map((blog) =>
+        <div key={blog.id} style={blogStyle}>
+          <div data-cy={`blog-${blog.title}`}>
+            {blog.title}
+          </div>
+          <div data-cy={`blog-${blog.author}`}>
+            {blog.author}
+          </div>
+          <button data-cy="view-button" onClick={() => setIsOpen((prevState) => !prevState)} >
+            {isOpen ? "hide" : "view"}
+          </button>
+          {isOpen &&
+            <>
+              <div data-cy={`blog-${blog.title}-like`}>
+                likes: {blog.likes}
+                <button data-cy="like-button" onClick={() => { dispatch(incrementLike(blog.id)) }}>like</button>
+              </div>
+              {blog.url && <div>
+                url: {blog.url}
+              </div>}
+              <button data-cy="delete-button" onClick={() => dispatch(removeBlog(blog.id))}>delete</button>
+            </>
+          }
+        </div>)
+
     )
   }
-  return null
+  return <div>wait</div>
 }
 
 Blog.propTypes = {

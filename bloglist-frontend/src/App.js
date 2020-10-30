@@ -72,9 +72,7 @@ const App = () => {
         </button>
       </div>
       <Creator />
-      {
-        blogs.map(blog => <Blog key={blog.id} blog={blog} updateLike={createNew} removeBlog={removeBlog} />)
-      }
+      <Blog></Blog>
     </div >
   )
 }

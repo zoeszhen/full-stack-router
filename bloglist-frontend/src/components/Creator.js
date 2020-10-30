@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import blogService from "../services/blogs"
 import { useDispatch } from 'react-redux'
 import { setNotification } from "../reducers/notificationReducer"
+import { createBlog } from "../reducers/blogsReducer"
 
 
 const Creator = () => {
@@ -21,14 +22,8 @@ const Creator = () => {
         }))
     }
     const createNew = () => {
-        blogService
-            .create(blog)
-            .then(() => {
-                dispatch(setNotification(`a new blog ${title} by ${author} added`, 10, null))
-            })
-            .catch((error) => {
-                dispatch(setNotification(error.message, 10, null))
-            })
+        dispatch(createBlog(blog))
+        dispatch(setNotification(`a new blog ${title} by ${author} added`, 10, null))
     }
 
     const { url, author, title } = blog;
