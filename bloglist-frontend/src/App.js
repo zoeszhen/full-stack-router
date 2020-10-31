@@ -9,6 +9,7 @@ import { setUser } from "./reducers/userReducer"
 import Blog from './components/Blog'
 import Creator from './components/Creator'
 import UserList from './components/UserList'
+import Navigation from './components/Navigation'
 import User from './components/User'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
@@ -30,12 +31,6 @@ const App = () => {
     }
   }, [])
 
-  const logout = () => {
-    window.localStorage.removeItem('loggedBlogappUser')
-    dispatch(setUser(null))
-    window.location.reload();
-  }
-
   if (user === null) {
     return <LoginForm />
   }
@@ -43,13 +38,9 @@ const App = () => {
   return (
     <div>
       <Notification data-cy="message"></Notification>
-      <h2>blogs</h2>
-      <div>You have been logged in
-        <button onClick={() => { logout() }}>
-          logout
-        </button>
-      </div>
       <Router>
+        <Navigation></Navigation>
+        <h2>blogs</h2>
         {/* <Menu /> */}
         <Switch>
           <Route path="/user/:id">

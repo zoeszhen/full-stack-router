@@ -5,8 +5,8 @@ import {
 } from "react-router-dom"
 
 const User = () => {
-    const id = useParams().id
-    const user = useSelector(state => state.user.userList).find(({ id }) => id === id)
+    const userId = useParams().id
+    const user = useSelector(state => state.user.userList).find(({ id }) => id === userId)
     console.log("user", user)
     return (
         <>
