@@ -14,7 +14,7 @@ const Blog = () => {
   }
   const blogs = useSelector(state => state.blog)
   const dispatch = useDispatch()
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(null)
 
   useEffect(() => {
     dispatch(initBlogs())
@@ -30,11 +30,14 @@ const Blog = () => {
           <div data-cy={`blog-${blog.author}`}>
             {blog.author}
           </div>
-          <button data-cy="view-button" onClick={() => setIsOpen((prevState) => !prevState)} >
-            {isOpen ? "hide" : "view"}
-          </button>
-          {isOpen &&
+          {isOpen !== blog.id && <button data-cy="view-button" onClick={() => setIsOpen(blog.id)} >
+            view
+          </button>}
+          {isOpen === blog.id &&
             <>
+              <button data-cy="view-button" onClick={() => setIsOpen(null)} >
+                hide
+              </button>
               <div data-cy={`blog-${blog.title}-like`}>
                 likes: {blog.likes}
                 <button data-cy="like-button" onClick={() => { dispatch(incrementLike(blog.id)) }}>like</button>

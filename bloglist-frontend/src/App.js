@@ -30,9 +30,9 @@ const App = () => {
     window.location.reload();
   }
 
-  // if (user === null) {
-  //   return <LoginForm />
-  // }
+  if (user === null) {
+    return <LoginForm />
+  }
 
   return (
     <div>

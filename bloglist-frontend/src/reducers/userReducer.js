@@ -15,7 +15,7 @@ export const userLogin = user => {
             'loggedBlogappUser', JSON.stringify(user)
         )
         dispatch({
-            type: 'INIT_BLOG',
+            type: 'SET_USER',
             data: {
                 username: user.username,
                 token
@@ -26,7 +26,7 @@ export const userLogin = user => {
 
 export const setUser = (user) => {
     return {
-        type: 'LIKE',
+        type: 'SET_USER',
         data: user
     }
 }
