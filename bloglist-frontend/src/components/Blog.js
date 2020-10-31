@@ -52,10 +52,4 @@ const Blog = () => {
   return <div>wait</div>
 }
 
-Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
-  updateLike: PropTypes.func.isRequired,
-  removeBlog: PropTypes.func.isRequired
-}
-
 export default Blog

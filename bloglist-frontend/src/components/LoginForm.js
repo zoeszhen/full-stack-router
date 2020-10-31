@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import loginService from '../services/login'
 import { useDispatch } from 'react-redux'
-import { setNotification } from "../reducers/notificationReducer"
+import { userLogin } from "../reducers/userReducer"
+import { initBlogs } from "../reducers/blogsReducer"
 
 
 const LoginForm = () => {
@@ -9,27 +10,13 @@ const LoginForm = () => {
         username: "",
         password: ""
     }
+    const [user, setLocalUser] = useState(initUser)
     const dispatch = useDispatch()
-    const [user, setUser] = useState(initUser)
+
     const handleLogin = async (event) => {
         event.preventDefault()
-        try {
-            const user = await loginService.login({
-                username, password,
-            })
-
-            window.localStorage.setItem(
-                'loggedBlogappUser', JSON.stringify(user)
-            )
-
-            // blogService.setToken(user.token)
-            setUser(initUser)
-            // blogService.getAll().then(blogs =>
-            //     setBlogs(blogs)
-            // )
-        } catch (error) {
-            dispatch(setNotification(error.message, 10, null))
-        }
+        dispatch(userLogin(user))
+        dispatch(initBlogs())
     }
 
     const { username, password } = user
@@ -44,7 +31,7 @@ const LoginForm = () => {
                         type="text"
                         value={username}
                         name="Username"
-                        onChange={({ target }) => setUser((preState) => ({ ...preState, username: target.value }))}
+                        onChange={({ target }) => setLocalUser((preState) => ({ ...preState, username: target.value }))}
                     />
                 </div>
                 <div>
@@ -54,7 +41,7 @@ const LoginForm = () => {
                         type="password"
                         value={password}
                         name="Password"
-                        onChange={({ target }) => setUser((preState) => ({ ...preState, password: target.value }))}
+                        onChange={({ target }) => setLocalUser((preState) => ({ ...preState, password: target.value }))}
                     />
                 </div>
                 <button data-cy="login-button" type="submit">login</button>
