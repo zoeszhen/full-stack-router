@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react'
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link,
+  useParams
+} from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from "./reducers/userReducer"
 import Blog from './components/Blog'
 import Creator from './components/Creator'
+import UserList from './components/UserList'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginForm from './components/LoginForm'
@@ -18,7 +24,6 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      console.log("user", user)
       dispatch(setUser(user))
       dispatch(initBlogs())
     }
@@ -43,8 +48,22 @@ const App = () => {
           logout
         </button>
       </div>
-      <Creator />
-      <Blog></Blog>
+      <Router>
+        {/* <Menu /> */}
+        <Switch>
+          <Route path="/user">
+            <UserList />
+          </Route>
+          {/* <Route path="/anecdotes/:id">
+            <AnecdoteDetails anecdotes={anecdotes} />
+          </Route> */}
+          <Route path="/">
+            <Creator />
+            <Blog></Blog>
+          </Route>
+        </Switch>
+        {/* <Footer /> */}
+      </Router>
     </div >
   )
 }

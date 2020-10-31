@@ -1,8 +1,21 @@
 import loginService from '../services/login'
-const userReducer = (state = null, action) => {
+import userService from '../services/user'
+const initState = {
+    user: undefined,
+    userList: []
+}
+const userReducer = (state = initState, action) => {
     switch (action.type) {
         case 'SET_USER':
-            return action.data
+            return {
+                ...state,
+                user: action.data
+            }
+        case 'SET_USERLIST':
+            return {
+                ...state,
+                userList: action.data
+            }
         default:
             return state
     }
@@ -20,6 +33,16 @@ export const userLogin = user => {
                 username: user.username,
                 token
             },
+        })
+    }
+}
+
+export const setUserList = () => {
+    return async dispatch => {
+        const userList = await userService.getAll()
+        dispatch({
+            type: 'SET_USERLIST',
+            data: userList,
         })
     }
 }
