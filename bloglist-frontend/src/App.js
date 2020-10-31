@@ -9,6 +9,7 @@ import { setUser } from "./reducers/userReducer"
 import Blog from './components/Blog'
 import Creator from './components/Creator'
 import UserList from './components/UserList'
+import User from './components/User'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginForm from './components/LoginForm'
@@ -51,12 +52,12 @@ const App = () => {
       <Router>
         {/* <Menu /> */}
         <Switch>
+          <Route path="/user/:id">
+            <User />
+          </Route>
           <Route path="/user">
             <UserList />
           </Route>
-          {/* <Route path="/anecdotes/:id">
-            <AnecdoteDetails anecdotes={anecdotes} />
-          </Route> */}
           <Route path="/">
             <Creator />
             <Blog></Blog>
